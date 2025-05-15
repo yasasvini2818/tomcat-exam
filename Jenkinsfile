@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven'
-        jdk 'JDK'
+        maven 'Maven'  // This must match the Maven name in Jenkins config
+        jdk 'JDK'      // This must match the JDK name in Jenkins config
     }
 
     stages {
@@ -19,11 +19,14 @@ pipeline {
             }
         }
 
-        stage('Deploy WAR') {
-            steps {
-                sh 'cp target/MavenWebApp-1.0-SNAPSHOT.war /opt/tomcat/webapps/'
-            }
-        }
+    }
 
+    post {
+        success {
+            echo 'Build and deployment successful.'
+        }
+        failure {
+            echo 'Build or deployment failed.'
         }
     }
+}
